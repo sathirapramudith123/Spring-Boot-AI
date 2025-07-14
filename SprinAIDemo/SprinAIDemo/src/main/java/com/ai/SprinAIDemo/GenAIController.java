@@ -29,7 +29,7 @@ public class GenAIController {
         return chatServices.getResponseOptions(prompt);
     }
 
-    @GetMapping("generate-image")
+    @GetMapping("generate-images")
     public void generateImage(HttpServletResponse response, @RequestParam String prompt) throws IOException {
         ImageResponse imageResponse = imageServices.generateImage(prompt);
         String imageUrl = imageResponse.getResult().getOutput().getUrl();
