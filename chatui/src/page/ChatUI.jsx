@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import '../page/ChatUI.css'; 
+import axios from '../axios.jsx';
 
 const ChatApp = () => {
   const [messages, setMessages] = useState([
