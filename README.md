@@ -1,3 +1,7 @@
+
+
+https://github.com/user-attachments/assets/c6464822-ee74-4abb-a4cd-b602e3c808b3
+
 # Spring Boot AI
 
 A simple Spring Boot application demonstrating integration with Artificial Intelligence features, likely intended for experimenting with or building intelligent applications using React and Spring Boot.
