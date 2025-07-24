@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Send, Sparkles, Bot, User } from 'lucide-react';
 import '../page/ChatUI.css';
-import axios from '../axios.jsx'; // your axios config
+import axios from '../axios.jsx';
 
 const ChatApp = () => {
   const [messages, setMessages] = useState([
@@ -33,14 +33,21 @@ const ChatApp = () => {
         params: { prompt: input }
       });
 
-      const aiMessage = { role: 'ai', text: res.data };
-      setMessages([...newMessages, aiMessage]);
+      const paragraphs = res.data.split(/\n\s*\n+/);
+
+      for (let i = 0; i < paragraphs.length; i++) {
+        const paragraph = paragraphs[i].trim();
+        if (paragraph) {
+          await new Promise(resolve => setTimeout(resolve, 400));
+          setMessages(prev => [...prev, { role: 'ai', text: paragraph }]);
+        }
+      }
+
     } catch (error) {
-      const errorMessage = {
-        role: 'ai',
-        text: '⚠️ Sorry, something went wrong with the AI server.'
-      };
-      setMessages([...newMessages, errorMessage]);
+      setMessages(prev => [
+        ...prev,
+        { role: 'ai', text: '⚠️ Sorry, something went wrong with the AI server.' }
+      ]);
       console.error(error);
     } finally {
       setLoading(false);
@@ -57,7 +64,6 @@ const ChatApp = () => {
   return (
     <div className="chat-app-container">
       <div className="chat-window">
-        {/* Header */}
         <div className="chat-header">
           <div className="header-content">
             <div className="header-icon">
@@ -68,7 +74,6 @@ const ChatApp = () => {
           <div className="header-overlay"></div>
         </div>
 
-        {/* Messages */}
         <div className="messages-container">
           {messages.map((msg, index) => (
             <div
@@ -102,11 +107,9 @@ const ChatApp = () => {
               </div>
             </div>
           )}
-
           <div ref={messagesEndRef} />
         </div>
 
-        {/* Input */}
         <div className="input-container">
           <div className="input-wrapper">
             <input
