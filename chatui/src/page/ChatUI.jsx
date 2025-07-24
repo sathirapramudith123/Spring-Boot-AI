@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Send, Sparkles, Bot, User } from 'lucide-react';
 import '../page/ChatUI.css';
-import axios from '../axios.jsx';
+import axios from '../axios.jsx'; // your axios config
 
 const ChatApp = () => {
   const [messages, setMessages] = useState([
@@ -29,7 +29,6 @@ const ChatApp = () => {
     setLoading(true);
 
     try {
-      // Replace this with your actual API call
       const res = await axios.get('http://localhost:8080/ask-ai-options', {
         params: { prompt: input }
       });
@@ -69,7 +68,7 @@ const ChatApp = () => {
           <div className="header-overlay"></div>
         </div>
 
-        {/* Messages Container */}
+        {/* Messages */}
         <div className="messages-container">
           {messages.map((msg, index) => (
             <div
@@ -77,23 +76,15 @@ const ChatApp = () => {
               className={`message-wrapper ${msg.role === 'user' ? 'user-message' : 'ai-message'}`}
               style={{ animationDelay: `${index * 0.1}s` }}
             >
-              {/* Avatar */}
               <div className={`avatar ${msg.role}-avatar`}>
-                {msg.role === 'user' ? (
-                  <User className="avatar-icon" />
-                ) : (
-                  <Bot className="avatar-icon" />
-                )}
+                {msg.role === 'user' ? <User className="avatar-icon" /> : <Bot className="avatar-icon" />}
               </div>
-
-              {/* Message Bubble */}
               <div className={`message-bubble ${msg.role}-bubble`}>
                 <p className="message-text">{msg.text}</p>
               </div>
             </div>
           ))}
 
-          {/* Loading Indicator */}
           {loading && (
             <div className="message-wrapper ai-message">
               <div className="avatar ai-avatar">
@@ -111,10 +102,11 @@ const ChatApp = () => {
               </div>
             </div>
           )}
+
           <div ref={messagesEndRef} />
         </div>
 
-        {/* Input Container */}
+        {/* Input */}
         <div className="input-container">
           <div className="input-wrapper">
             <input
@@ -129,16 +121,12 @@ const ChatApp = () => {
             <button
               onClick={sendMessage}
               disabled={loading || input.trim() === ''}
-              className={`send-button ${
-                loading || input.trim() === '' ? 'disabled' : 'enabled'
-              }`}
+              className={`send-button ${loading || input.trim() === '' ? 'disabled' : 'enabled'}`}
             >
               <Send className="send-icon" />
             </button>
           </div>
-          <p className="input-hint">
-            Press Enter to send • Shift + Enter for new line
-          </p>
+          <p className="input-hint">Press Enter to send • Shift + Enter for new line</p>
         </div>
       </div>
     </div>
